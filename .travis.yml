@@ -4,7 +4,7 @@ services:   docker
 
 # Docs of the options: https://github.com/Strauman/travis-latexbuild/tree/master#configuration-options
 tex-config:
-- tex-scheme=small
+- tex-scheme=full
 - push-type=none
 - build-pattern=doc/main.tex
 - latexmk-flags=-pdf
@@ -13,4 +13,4 @@ tex-config:
 
 # We will use the docker image from https://hub.docker.com/r/strauman/travis-latexbuild/
 script:
-- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/repo,type=bind strauman/travis-latexbuild:small
+- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/repo,type=bind strauman/travis-latexbuild:full
