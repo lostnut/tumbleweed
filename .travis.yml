@@ -1,16 +1,11 @@
-sudo:       required
-language:   generic
-services:   docker
+dist: xenial 
 
-# Docs of the options: https://github.com/Strauman/travis-latexbuild/tree/master#configuration-options
-tex-config:
-- tex-scheme=full
-- push-type=none
-- build-pattern=doc/main.tex
-- latexmk-flags=-pdf
-# Check at https://www.ctan.org/pkg/package-name in which TeX Live package a LaTeX package is contained.
-- packages=inputenc, fontenc, helvet, microtype, tocloft, babel, csquotes, xcolor, fancyhdr, layout, geometry, amsmath, amssymb, amsthm, siunitx, graphicx, tikz, listings, todonotes, import, standalone, biblatex, hyperref
+language: generic
 
-# We will use the docker image from https://hub.docker.com/r/strauman/travis-latexbuild/
-script:
-- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/repo,type=bind strauman/travis-latexbuild:full
+install:
+        - sudo apt-get update
+        - sudo apt-get install -y latexmk biber texlive
+
+script: 
+        - cd doc
+        - make
