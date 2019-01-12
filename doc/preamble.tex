@@ -17,11 +17,9 @@
 
 %Typo
 \usepackage{microtype}
-\usepackage{tocloft}
 
 %Langage 
 \usepackage{babel}
-\usepackage{csquotes} 
 
 %Colors
 \usepackage[dvipsnames]{xcolor}
@@ -31,40 +29,12 @@
 \usepackage{layout}
 \usepackage{geometry}
 
-% Math
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-
-%Units
-\usepackage{siunitx}
-
-%Graphics
-\usepackage{graphicx}
-\usepackage{tikz}
-
-% Code
-\usepackage{listings}
-
-%Notes
-\usepackage[colorinlistoftodos]{todonotes}
-
-% Imports
-\usepackage{import}
-\usepackage{standalone}
-
-%Bibliography
-\usepackage[backend=biber,style=alphabetic,sorting=nyt]{biblatex}
-
 %References
 \usepackage{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SETUP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Images
-\graphicspath{{./pictures/}}
-
 %Geometry
 \geometry{
         a4paper,
@@ -86,12 +56,6 @@
 \cfoot{\thepage}
 \rfoot{}
 
-%Tikz
-\usetikzlibrary{}
-
-%Bibliography
-\addbibresource{./references.bib}
-
 %References
 \hypersetup{
         colorlinks=true,
@@ -104,13 +68,4 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%Dotted section title
-\renewcommand{\cftsecaftersnum}{.}
-
-%todonotes
-\newcommand{\todoref}[1]{\todo[color=Green, inline]{missing ref : #1}}
-\newcommand{\todolink}[1]{\todo[color=RoyalBlue, inline]{missing link : #1}}
-\newcommand{\todomiss}[1]{\todo[color=Red, inline]{#1}}
-\newcommand{\mytodo}[1]{\todo[inline]{#1}}
 
