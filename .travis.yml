@@ -7,5 +7,4 @@ install:
         - sudo apt-get install -y latexmk biber texlive
 
 script: 
-        - cd doc
-        - make
+        - make doc
