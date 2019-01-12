@@ -2,5 +2,5 @@
 #include <stdlib.h>
 #include <stdnoreturn.h>
 
-static noreturn assertion_failed();
+static noreturn void assertion_failed();
 
