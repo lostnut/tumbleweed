@@ -1,7 +1,7 @@
 # Latex compiler
 LC = latexmk
 #Latex compiler flags
-LFLAGS = -pdf
+LFLAGS = -pdf -interaction=nonstopmode
 #main tex file
 MAIN = main.tex
 #rule 
