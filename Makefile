@@ -59,8 +59,15 @@ blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(TST)
 blas-run-test:
 	$(BLAS_TST_EXEC)
 
-clean-blas: 
+.PHONY: clean-blas clean-blas-src clean-blas-test
+clean-blas: clean-blas-src clean-blas-test
+
+clean-blas-src:
 	$(RM) $(BLAS_OBJ)
+
+clean-blas-test:
+	$(RM) $(BLAS_TST_EXEC)
+
 
 ################################################################################
 ############################# Documentation ####################################
