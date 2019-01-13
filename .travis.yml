@@ -1,10 +1,18 @@
 dist: xenial 
 
-language: generic
-
-install:
-        - sudo apt-get update
-        - sudo apt-get install -y latexmk biber texlive
-
-script: 
-        - make doc
+matrix:
+        include:
+                - language: generic
+                  install:
+                          - sudo apt-get update
+                          - sudo apt-get install -y latexmk biber texlive
+                  script:
+                          - make doc
+                - language: c
+                  compiler:
+                          - clang
+                          - gcc
+                  install:
+                          - make blas
+                  script:
+                          - make test-blas
