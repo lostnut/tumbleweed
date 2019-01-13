@@ -25,12 +25,12 @@ CFLAGS += -Wextra# turn on extra warnings
 ############################# BLAS #############################################
 ################################################################################
 # compilation flags
-BLAS_FLAGS = CFLAGS
+BLAS_FLAGS = $(CFLAGS)
 BLAS_FLAGS += -O2
 BLAS_FLAGS += -ffast-math
 # compilation flags test
-BLAS_FLAGS_TEST = CFLAGS
-BLAS_FLAGS_TEST = -O0
+BLAS_FLAGS_TEST = $(CFLAGS)
+BLAS_FLAGS_TEST += -O0
 # test includes
 BLAS_TEST_INCLUDES = -I$(PATH_BLAS)
 BLAS_TEST_INCLUDES += -I$(PATH_TEST)
