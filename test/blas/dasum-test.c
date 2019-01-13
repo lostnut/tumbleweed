@@ -16,7 +16,7 @@ void dasum_null_length(void)
         int n         = 0;
         int incx      = 1;
         double result = dasum(n, x, incx);
-        assert_double_equals(result, 1.0);
+        assert_double_equals(result, 0.0);
 }
 
 void dasum_test(void)
