@@ -9,9 +9,13 @@ matrix:
                   script:
                           - make doc
                 - language: c
-                  compiler:
-                          - clang
-                          - gcc
+                  compiler: clang
+                  install:
+                          - make blas
+                  script:
+                          - make test-blas
+                - language: c
+                  compiler: gcc
                   install:
                           - make blas
                   script:
