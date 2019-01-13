@@ -3,8 +3,18 @@
 #include <stdlib.h>
 #include <stdnoreturn.h>
 
-static noreturn void assertion_failed();
+/* Assert macros */
+#define assert_double_equals(actual, expected)                                 \
+        _assert_double_equals(actual, expected, __FILE__, __func__, __LINE__)
 
-/* Assertions */
-void assert_double_equals(const double actual, const double expected);
+/* Testing function */
+void test_start(void);
+void test_suite(const char *name, void (*function)(void));
+void test(void (*function)(void));
+int test_end(void);
+
+/* Assertion functions */
+void _assert_double_equals(const double actual, const double expected,
+                           const char *file, const char *function,
+                           const int line);
 
