@@ -46,6 +46,15 @@ void dasum_neg_increment(void)
         ASSERT_DOUBLE_EQUALS(result, 3.0);
 }
 
+void dasum_negative_increment(void)
+{
+        double x[4]   = {1.0, 2.0, 3.0, 4.0};
+        int n         = 2;
+        int incx      = -2;
+        double result = dasum(n, (x + 3), incx);
+        ASSERT_DOUBLE_EQUALS(result, 6.0);
+}
+
 void dasum_test(void)
 {
         DRYRUN_TEST(dasum_negative_length);
@@ -53,5 +62,6 @@ void dasum_test(void)
         DRYRUN_TEST(dasum_unity_increment);
         DRYRUN_TEST(dasum_positive_increment);
         DRYRUN_TEST(dasum_neg_increment);
+        DRYRUN_TEST(dasum_negative_increment);
 }
 
