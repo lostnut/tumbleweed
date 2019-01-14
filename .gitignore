@@ -1,2 +1,5 @@
 # compilation commands
 compile_commands.json
+
+#idea project
+.idea
