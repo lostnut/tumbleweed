@@ -1,8 +1,9 @@
 ################################################################################
 ############################# General ##########################################
 ################################################################################
-PATH_TEST=test
-TST = $(wildcard $(PATH_TEST)/*.c)
+all: dryrun blas test-blas doc
+
+clean: clean-dryrun clean-blas clean-doc
 ################################################################################
 ############################# Utilities ########################################
 ################################################################################
@@ -22,6 +23,37 @@ CFLAGS += -Werror# turn warnings into errors.
 CFLAGS += -Wall#turn on all warnings
 CFLAGS += -Wextra# turn on extra warnings
 ################################################################################
+############################# TeX ##############################################
+################################################################################
+# latex compiler
+LC = latexmk
+# latex compiler flags
+LFLAGS = -pdf
+LFLAGS += -interaction=nonstopmode
+################################################################################
+############################# Dryrun ###########################################
+################################################################################
+# compilation flags
+DRYRUN_FLAGS = $(CFLAGS)
+DRYRUN_FLAGS += -O2
+DRYRUN_FLAGS += -ffast-math
+# path
+DRYRUN_PATH = src/dryrun
+# files
+DRYRUN_SRC = $(wildcard $(DRYRUN_PATH)/*.c)
+DRYRUN_INC = $(wildcard $(DRYRUN_PATH)/*.h)
+DRYRUN_OBJ = $(DRYRUN_SRC:%.c=%.o)
+# phony
+.PHONY: dryrun clean-dryrun
+# rules
+dryrun: $(DRYRUN_INC) $(DRYRUN_OBJ)
+
+$(PATH_DRYRUN)/%.o: %.c $(DRYRUN_INC)
+	$(CC) $(DRYRUN_FLAGS) -c $< -o $@
+
+clean-dryrun:
+	$(RM) $(DRYRUN_OBJ)
+################################################################################
 ############################# BLAS #############################################
 ################################################################################
 # compilation flags
@@ -31,18 +63,18 @@ BLAS_FLAGS += -ffast-math
 # compilation flags test
 BLAS_FLAGS_TEST = $(CFLAGS)
 BLAS_FLAGS_TEST += -O0
-# test includes
-BLAS_TEST_INCLUDES = -I$(PATH_BLAS)
-BLAS_TEST_INCLUDES += -I$(PATH_TEST)
 # path
-PATH_BLAS = src/blas
-PATH_BLAS_TEST = test/blas
+BLAS_PATH= src/blas
+BLAS_PATH_TEST = test/blas
+# test includes
+BLAS_TEST_INCLUDES = -I$(BLAS_PATH)
+BLAS_TEST_INCLUDES += -I$(DRYRUN_PATH)
 # files
-BLAS_SRC = $(wildcard $(PATH_BLAS)/*.c)
+BLAS_SRC = $(wildcard $(BLAS_PATH)/*.c)
 BLAS_OBJ = $(BLAS_SRC:%.c=%.o)
-BLAS_HEADER = $(PATH_BLAS)/blas.h
-BLAS_TST = $(wildcard $(PATH_BLAS_TEST)/*.c)
-BLAS_TST_EXEC = $(PATH_BLAS_TEST)/test-blas.a
+BLAS_HEADER = $(BLAS_PATH)/blas.h
+BLAS_TST = $(wildcard $(BLAS_PATH_TEST)/*.c)
+BLAS_TST_EXEC = $(BLAS_PATH_TEST)/test-blas.a
 # phony
 .PHONY: blas test-blas blas-compile-test blas-run-test
 #rules
@@ -53,7 +85,7 @@ $(PATH_BLAS)/%.o: %.c $(BLAS_HEADER)
 
 test-blas: blas blas-compile-test blas-run-test
 
-blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(TST)
+blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(DRYRUN_OBJ)
 	$(CC) $(BLAS_FLAGS_TEST) $(BLAS_TEST_INCLUDES) $^ -o $(BLAS_TST_EXEC)
 
 blas-run-test:
@@ -67,22 +99,15 @@ clean-blas-src:
 
 clean-blas-test:
 	$(RM) $(BLAS_TST_EXEC)
-
-
 ################################################################################
 ############################# Documentation ####################################
 ################################################################################
-# latex compiler 
-LC = latexmk
-# latex compiler flags
-LFLAGS = -pdf
-LFLAGS += -interaction=nonstopmode
 # path
-PATH_DOC = doc
-# main tex file
-TEX_MAIN = main.tex
+DOC_PATH = doc
+# main doc file
+DOC_MAIN = main.tex
 # doc files 
-TEX_FILES = main.aux\
+DOC_OBJ = main.aux\
 	    main.fdb_latexmk\
 	    main.fls\
 	    main.log\
@@ -93,10 +118,10 @@ TEX_FILES = main.aux\
 .PHONY: doc
 # rules 
 doc:
-	$(CD) $(PATH_DOC); \
-	$(LC) $(LFLAGS) $(TEX_MAIN)
+	$(CD) $(DOC_PATH); \
+	$(LC) $(LFLAGS) $(DOC_MAIN)
 
 clean-doc:
-	$(CD) $(PATH_DOC); \
-	$(RM) $(TEX_FILES)
+	$(CD) $(DOC_PATH); \
+	$(RM) $(DOC_OBJ)
 
