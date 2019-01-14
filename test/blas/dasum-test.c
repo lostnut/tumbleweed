@@ -1,5 +1,5 @@
 #include "blas.h"
-#include "test.h"
+#include "dryrun.h"
 
 void dasum_negative_length(void)
 {
@@ -7,7 +7,7 @@ void dasum_negative_length(void)
         int n         = -1;
         int incx      = 1;
         double result = dasum(n, x, incx);
-        assert_double_equals(result, 0.0);
+        ASSERT_DOUBLE_EQUALS(result, 0.0);
 }
 
 void dasum_null_length(void)
@@ -16,7 +16,7 @@ void dasum_null_length(void)
         int n         = 0;
         int incx      = 1;
         double result = dasum(n, x, incx);
-        assert_double_equals(result, 0.0);
+        ASSERT_DOUBLE_EQUALS(result, 0.0);
 }
 
 void dasum_unity_increment(void)
@@ -25,7 +25,7 @@ void dasum_unity_increment(void)
         int n         = 2;
         int incx      = 1;
         double result = dasum(n, x, incx);
-        assert_double_equals(result, 3.0);
+        ASSERT_DOUBLE_EQUALS(result, 3.0);
 }
 
 void dasum_positive_increment(void)
@@ -34,24 +34,24 @@ void dasum_positive_increment(void)
         int n         = 2;
         int incx      = 2;
         double result = dasum(n, x, incx);
-        assert_double_equals(result, 4.0);
+        ASSERT_DOUBLE_EQUALS(result, 4.0);
 }
 
-void dasum_neg_incremnt(void)
+void dasum_neg_increment(void)
 {
         double x[2]   = {1.0, 2.0};
         int n         = 2;
         int incx      = -1;
         double result = dasum(n, (x + 1), incx);
-        assert_double_equals(result, 3.0);
+        ASSERT_DOUBLE_EQUALS(result, 3.0);
 }
 
 void dasum_test(void)
 {
-        test(dasum_negative_length);
-        test(dasum_null_length);
-        test(dasum_unity_increment);
-        test(dasum_positive_increment);
-        test(dasum_negative_length);
+        DRYRUN_TEST(dasum_negative_length);
+        DRYRUN_TEST(dasum_null_length);
+        DRYRUN_TEST(dasum_unity_increment);
+        DRYRUN_TEST(dasum_positive_increment);
+        DRYRUN_TEST(dasum_neg_increment);
 }
 
