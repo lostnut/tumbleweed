@@ -23,4 +23,6 @@ int dryrun_end(void);
         assert_float_equals(actual, expected, __FILE__, __func__, __LINE__)
 #define ASSERT_DOUBLE_EQUALS(actual, expected)                                 \
         assert_double_equals(actual, expected, __FILE__, __func__, __LINE__)
-
+#define ASSERT_DOUBLE_ARRAY_EQUALS(actual, expected, length)                   \
+        assert_double_array_equals(actual, expected, length, __FILE__,         \
+                                   __func__, __LINE__)

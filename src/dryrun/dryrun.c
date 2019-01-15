@@ -134,6 +134,21 @@ void assert_double_equals(const double actual, const double expected,
         }
 }
 
+void assert_double_array_equals(const double *actual, const double *expected,
+                                const int length, const char *file,
+                                const char *function, const int line)
+{
+        for (int i = 0; i < length; i++) {
+                bool passed = _assert_double_equals(actual[i], expected[i]);
+                if (!passed) {
+                        _assert_failed(file, function, line,
+                                       "expected (double)%e was %e, indice %d",
+                                       expected[i], actual[i], i);
+                        break;
+                }
+        }
+}
+
 /* private functions */
 void _assert_failed(const char *file, const char *function, const int line,
                     const char *format, ...)

@@ -23,3 +23,6 @@ void assert_float_equals(const float actual, const float expected,
 void assert_double_equals(const double actual, const double expected,
                           const char *file, const char *function,
                           const int line);
+void assert_double_array_equals(const double *actual, const double *expected,
+                                const int length, const char *file,
+                                const char *function, const int line);
