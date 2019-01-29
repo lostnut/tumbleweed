@@ -49,12 +49,12 @@ void stStartTest(void)
 {
         status.total++;
         status.passed = true;
-        clock_gettime(CLOCK_REALTIME, &status.start);
+        timespec_get(&status.start, TIME_UTC);
 }
 
 void stEndTest(const char *file, const char *function, const int line)
 {
-        clock_gettime(CLOCK_REALTIME, &status.end);
+        timespec_get(&status.end, TIME_UTC);
         double elapsed = (status.end.tv_sec - status.start.tv_sec) +
                          (status.end.tv_nsec - status.start.tv_nsec) / 1.0E9;
         if (status.passed) {
@@ -94,7 +94,7 @@ void stPrintSucceed(const char *file, const char *function, const int line,
         printf(" ");
         stPrintElapsedTime(time);
         printf(" ");
-        printf("%s:%d: %s\n", time, file, line, function);
+        printf("%s:%d: %s\n", file, line, function);
 }
 
 void stPrintPass(void)

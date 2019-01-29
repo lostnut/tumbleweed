@@ -4,13 +4,13 @@
 # phony
 .PHONY: all clean compile test
 #rules
-all: softtest blas test-blas doc
+all: softtest doc
 
-compile: softtest blas
+compile: softtest
 
-test: test-blas
+test: 
 
-clean: clean-softtest clean-blas clean-doc
+clean: clean-softtest clean-doc
 ################################################################################
 ############################# Utilities ########################################
 ################################################################################
@@ -75,52 +75,6 @@ softtest-run-test:
 
 clean-softtest:
 	$(RM) $(SOFTTEST_OBJ)
-################################################################################
-############################# BLAS #############################################
-################################################################################
-# compilation flags
-BLAS_FLAGS = $(CFLAGS)
-BLAS_FLAGS += -O2
-BLAS_FLAGS += -ffast-math
-# compilation flags test
-BLAS_FLAGS_TEST = $(CFLAGS)
-BLAS_FLAGS_TEST += -O0
-# path
-BLAS_PATH= src/blas
-BLAS_PATH_TEST = test/blas
-# test includes
-BLAS_TEST_INCLUDES = -I$(BLAS_PATH)
-BLAS_TEST_INCLUDES += -I$(SOFTTEST_PATH)
-# files
-BLAS_SRC = $(wildcard $(BLAS_PATH)/*.c)
-BLAS_OBJ = $(BLAS_SRC:%.c=%.o)
-BLAS_HEADER = $(BLAS_PATH)/blas.h
-BLAS_TST = $(wildcard $(BLAS_PATH_TEST)/*.c)
-BLAS_TST_EXEC = $(BLAS_PATH_TEST)/test-blas.a
-# phony
-.PHONY: blas test-blas blas-compile-test blas-run-test
-#rules
-blas: $(BLAS_HEADER) $(BLAS_OBJ)
-
-$(PATH_BLAS)/%.o: %.c $(BLAS_HEADER)
-	$(CC) $(BLAS_FLAGS) -c $< -o $@
-
-test-blas: blas blas-compile-test blas-run-test
-
-blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(SOFTTEST_OBJ)
-	$(CC) $(BLAS_FLAGS_TEST) $(BLAS_TEST_INCLUDES) $^ -o $(BLAS_TST_EXEC)
-
-blas-run-test:
-	$(BLAS_TST_EXEC)
-
-.PHONY: clean-blas clean-blas-src clean-blas-test
-clean-blas: clean-blas-src clean-blas-test
-
-clean-blas-src:
-	$(RM) $(BLAS_OBJ)
-
-clean-blas-test:
-	$(RM) $(BLAS_TST_EXEC)
 ################################################################################
 ############################# Documentation ####################################
 ################################################################################
