@@ -4,13 +4,13 @@
 # phony
 .PHONY: all clean compile test
 #rules
-all: dryrun blas test-blas doc
+all: softtest blas test-blas doc
 
-compile: dryrun blas
+compile: softtest blas
 
 test: test-blas
 
-clean: clean-dryrun clean-blas clean-doc
+clean: clean-softtest clean-blas clean-doc
 ################################################################################
 ############################# Utilities ########################################
 ################################################################################
@@ -38,28 +38,43 @@ LC = latexmk
 LFLAGS = -pdf
 LFLAGS += -interaction=nonstopmode
 ################################################################################
-############################# Dryrun ###########################################
+############################# Softtest #########################################
 ################################################################################
 # compilation flags
-DRYRUN_FLAGS = $(CFLAGS)
-DRYRUN_FLAGS += -O2
-DRYRUN_FLAGS += -ffast-math
+SOFTTEST_FLAGS = $(CFLAGS)
+SOFTTEST_FLAGS += -O2
+# compilation flags test
+SOFTTEST_FLAGS_TEST = $(CFLAGS)
+SOFTTEST_FLAGS_TEST += -O0
 # path
-DRYRUN_PATH = src/dryrun
+SOFTTEST_PATH = src/softtest
+SOFTTEST_PATH_TEST = test/softtest
+# test includes
+SOFTTEST_TEST_INCLUDES = -I$(SOFTTEST_PATH)
 # files
-DRYRUN_SRC = $(wildcard $(DRYRUN_PATH)/*.c)
-DRYRUN_INC = $(wildcard $(DRYRUN_PATH)/*.h)
-DRYRUN_OBJ = $(DRYRUN_SRC:%.c=%.o)
+SOFTTEST_SRC = $(wildcard $(SOFTTEST_PATH)/*.c)
+SOFTTEST_INC = $(wildcard $(SOFTTEST_PATH)/*.h)
+SOFTTEST_OBJ = $(SOFTTEST_SRC:%.c=%.o)
+SOFTTEST_TST = $(wildcard $(SOFTTEST_PATH_TEST)/*.c)
+SOFTTEST_TST_EXEC = $(SOFTTEST_PATH_TEST)/test-softtest.a
 # phony
-.PHONY: dryrun clean-dryrun
+.PHONY: softtest clean-softtest test-softtest softtest-compile-test softtest-run-test
 # rules
-dryrun: $(DRYRUN_INC) $(DRYRUN_OBJ)
+softtest: $(SOFTTEST_INC) $(SOFTTEST_OBJ)
 
-$(PATH_DRYRUN)/%.o: %.c $(DRYRUN_INC)
-	$(CC) $(DRYRUN_FLAGS) -c $< -o $@
+$(PATH_SOFTTEST)/%.o: %.c $(SOFTTEST_INC)
+	$(CC) $(SOFTTEST_FLAGS) -c $< -o $@
 
-clean-dryrun:
-	$(RM) $(DRYRUN_OBJ)
+test-softtest: softtest softtest-compile-test softtest-run-test
+
+softtest-compile-test: $(SOFTTEST_SRC) $(SOFTTEST_TST) $(SOFTTEST_OBJ)
+	$(CC) $(SOFTTEST_FLAGS_TEST) $(SOFTTEST_TEST_INCLUDES) $^ -o $(SOFTTEST_TST_EXEC)
+
+softtest-run-test:
+	$(SOFTTEST_TST_EXEC)
+
+clean-softtest:
+	$(RM) $(SOFTTEST_OBJ)
 ################################################################################
 ############################# BLAS #############################################
 ################################################################################
@@ -75,7 +90,7 @@ BLAS_PATH= src/blas
 BLAS_PATH_TEST = test/blas
 # test includes
 BLAS_TEST_INCLUDES = -I$(BLAS_PATH)
-BLAS_TEST_INCLUDES += -I$(DRYRUN_PATH)
+BLAS_TEST_INCLUDES += -I$(SOFTTEST_PATH)
 # files
 BLAS_SRC = $(wildcard $(BLAS_PATH)/*.c)
 BLAS_OBJ = $(BLAS_SRC:%.c=%.o)
@@ -92,7 +107,7 @@ $(PATH_BLAS)/%.o: %.c $(BLAS_HEADER)
 
 test-blas: blas blas-compile-test blas-run-test
 
-blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(DRYRUN_OBJ)
+blas-compile-test: $(BLAS_SRC) $(BLAS_TST) $(SOFTTEST_OBJ)
 	$(CC) $(BLAS_FLAGS_TEST) $(BLAS_TEST_INCLUDES) $^ -o $(BLAS_TST_EXEC)
 
 blas-run-test:
